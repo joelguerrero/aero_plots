@@ -1,2 +1,3 @@
 # aero_plots
-some plots for arodynamic polars
+
+Some plots for arodynamic polars
