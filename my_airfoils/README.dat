@@ -1,0 +1,74 @@
+The airfoil input file should be as:
+
+- Start at the leading edge
+- Sweep the upper side (extrados)
+- Sweep the lower side (intrados)
+- Close the airfoil at the leading edge
+- Do not use TAB to separate the coordinates
+
+
+
+When reading the airfoil from an external file remember to:
+
+- Do repaneling 
+- Check chord normalization. Recommended values are between 0-1
+- Check origin. Recommended value is 0 in x
+
+
+
+Airfoil file formats
+--------------------
+LOAD recognizes four airfoil file formats:  Plain,  Labeled,  ISES,  MSES.
+All data lines are significant with the exception of lines beginning
+with "#", which are ignored.
+
+
+
+Plain coordinate file
+.....................
+
+This contains only the X,Y coordinates, which run from the 
+trailing edge, round the leading edge, back to the trailing edge 
+in either direction:
+
+X(1)  Y(1)
+X(2)  Y(2)
+ .     .
+ .     .
+X(N)  Y(N)
+
+
+
+Labeled coordinate file
+.......................
+
+This is the same as the plain file, except that it also has an 
+airfoil name string on the first line:
+
+NACA 0012
+X(1)  Y(1)
+X(2)  Y(2)
+ .     .
+
+This is deemed the most convenient format to use.
+The presence of the name string is automatically recognized if
+it does not begin with a Fortran-readable pair of numbers.  Hence, 
+"00 12 NACA Airfoil" cannot be used as a name, since the "00 12" 
+will be interpreted as the first pair of coordinates.  "0012 NACA"
+is OK, however.
+
+Some Fortran implementations will also choke on airfoil names 
+that begin with T or F.  These will be interpreted as logical
+variables, defeating the name-detection logic.  Beginning the
+name with _T or _F is a workable solution to this "feature".
+
+
+
+Buffer airfoil normalization
+----------------------------
+XFOIL will normally perform all operations on an airfoil with the
+same shape and location in cartesian space as the input airfoil.
+However, if the normalization flag is set (toggled with the NORM 
+command), the airfoil coordinates will be immediately normalized 
+to unit chord and the leading edge will be placed at the origin.  
+A message is printed to remind the user.
